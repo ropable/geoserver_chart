@@ -16,7 +16,7 @@ if [[ -f ${GEOSERVER_DATA_DIR}/www/server/restartenabled ]]; then
   if [[ ${seconds} -ge ${nextRestartSeconds} ]]; then
     #need to restart
     {{- if ge $log_level ((get $log_levels "ERROR") | int) }}
-    echo "$(date '+%Y-%m-%d %H:%M:%S.%N') Liveness : Geoserver is scheduled to restart at $(date -d @${nextRestartSeconds} '+%Y-%m-%d %H:%M:%S')." >> ${livenesslogfile}
+    echo "$(date '+%Y-%m-%d %H:%M:%S.%N') Liveness: Geoserver is scheduled to restart at $(date -d @${nextRestartSeconds} '+%Y-%m-%d %H:%M:%S')." >> ${livenesslogfile}
     {{- end }}
 
     declare -a restartPeriods

@@ -64,21 +64,21 @@ if [[ ${status} -eq 0 ]]; then
     #The file "failuretimes" exists, remove  it
     rm -f /tmp/geoserver_failuretimes
     {{- if ge $log_level ((get $log_levels "ERROR") | int) }}
-    echo "$(date '+%Y-%m-%d %H:%M:%S.%N') Liveness : Geoserver is back to online again. ${resourceusage} , ping: ${pingstatus} , pingtime: ${pingtime}" >> ${livenesslogfile}
+    echo "$(date '+%Y-%m-%d %H:%M:%S.%N') Liveness: Geoserver is back to online again. ${resourceusage}, ping: ${pingstatus}, pingtime: ${pingtime}" >> ${livenesslogfile}
     {{- end }}
   {{- if ge $log_level ((get $log_levels "DEBUG") | int) }}
   else
-    echo "$(date '+%Y-%m-%d %H:%M:%S.%N') Liveness : Geoserver is online. ${resourceusage} , ping: ${pingstatus} , pingtime: ${pingtime}" >> ${livenesslogfile}
+    echo "$(date '+%Y-%m-%d %H:%M:%S.%N') Liveness: Geoserver is online. ${resourceusage}, ping: ${pingstatus}, pingtime: ${pingtime}" >> ${livenesslogfile}
   {{- else }}
   elif [[ "$resourceusage" != "" ]]; then
-    echo "$(date '+%Y-%m-%d %H:%M:%S.%N') Liveness : Geoserver is online. ${resourceusage} , ping: ${pingstatus} , pingtime: ${pingtime}" >> ${livenesslogfile}
+    echo "$(date '+%Y-%m-%d %H:%M:%S.%N') Liveness: Geoserver is online. ${resourceusage}, ping: ${pingstatus}, pingtime: ${pingtime}" >> ${livenesslogfile}
   {{- end }}
   fi
   exit 0
 fi
 {{- if eq ($livenessProbe.failureThreshold | default 2 | int) 1 }}
   {{- if ge $log_level ((get $log_levels "ERROR") | int) }}
-  echo "$(date '+%Y-%m-%d %H:%M:%S.%N') Liveness : Geoserver is offline, restart. ${resourceusage} , ping: ${pingstatus} , pingtime: ${pingtime}" >> ${livenesslogfile}
+  echo "$(date '+%Y-%m-%d %H:%M:%S.%N') Liveness: Geoserver is offline, restart. ${resourceusage}, ping: ${pingstatus}, pingtime: ${pingtime}" >> ${livenesslogfile}
   {{- end }}
   exit ${status}
 {{- else }}
@@ -92,12 +92,12 @@ echo ${failureTimes} > /tmp/geoserver_failuretimes
 if [[ ${failureTimes} -ge {{ $livenessProbe.failureThreshold | default 2 }} ]]; then
   #geoserver is not available 
   {{- if ge $log_level ((get $log_levels "ERROR") | int) }}
-  echo "$(date '+%Y-%m-%d %H:%M:%S.%N') Liveness : Geoserver is offline on the ${failureTimes}th continous check, restart. ${resourceusage} , ping: ${pingstatus} , pingtime: ${pingtime}" >> ${livenesslogfile}
+  echo "$(date '+%Y-%m-%d %H:%M:%S.%N') Liveness: Geoserver is offline on the ${failureTimes}th continous check, restart. ${resourceusage}, ping: ${pingstatus}, pingtime: ${pingtime}" >> ${livenesslogfile}
   {{- end }}
   exit ${status}
 else
   {{- if ge $log_level ((get $log_levels "ERROR") | int) }}
-  echo "$(date '+%Y-%m-%d %H:%M:%S.%N') Liveness : Geoserver is offline on the ${failureTimes}th continous check, need to check again.${resourceusage} , ping: ${pingstatus} , pingtime: ${pingtime}" >> ${livenesslogfile}
+  echo "$(date '+%Y-%m-%d %H:%M:%S.%N') Liveness: Geoserver is offline on the ${failureTimes}th continous check, need to check again. ${resourceusage}, ping: ${pingstatus}, pingtime: ${pingtime}" >> ${livenesslogfile}
   {{- end }}
   exit 0
 fi

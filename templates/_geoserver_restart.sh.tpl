@@ -64,7 +64,7 @@ else
             remoteGeoserverNextRestartTime=$(cat /tmp/remotegeoserver_nextrestarttime)
             if [[ "${remoteGeoserverNextRestartTime}" == "Disabled" ]]; then
       {{- if ge $log_level ((get $log_levels "ERROR") | int) }}
-                echo "$(date '+%Y-%m-%d %H:%M:%S.%N') Liveness : The remote geoserver(http://${server}:8080/geoserver) is online and its restart feature is disabled, can restart before the remote geoserver." >> ${livenesslogfile}
+                echo "$(date '+%Y-%m-%d %H:%M:%S.%N') Liveness: The remote geoserver (http://${server}:8080/geoserver) is online and its restart feature is disabled, can restart before the remote geoserver." >> ${livenesslogfile}
       {{- else }}
                 :
       {{- end }}
@@ -73,28 +73,28 @@ else
       #can't restart this geoserver now
                 status=99
       {{- if ge $log_level ((get $log_levels "ERROR") | int) }}
-                echo "$(date '+%Y-%m-%d %H:%M:%S.%N') Liveness: The remote geoserver(http://${server}:8080/geoserver) is online and its next restart time is $(date -d @${remoteGeoserverNextRestartTime} '+%Y-%m-%d %H:%M:%S') which is earlier than the current geoserver's next restart time($(date -d @${nextRestartSeconds} '+%Y-%m-%d %H:%M:%S')), Can't restart." >> ${livenesslogfile}
+                echo "$(date '+%Y-%m-%d %H:%M:%S.%N') Liveness: The remote geoserver (http://${server}:8080/geoserver) is online and its next restart time is $(date -d @${remoteGeoserverNextRestartTime} '+%Y-%m-%d %H:%M:%S') which is earlier than the current geoserver's next restart time ($(date -d @${nextRestartSeconds} '+%Y-%m-%d %H:%M:%S')), Can't restart." >> ${livenesslogfile}
       {{- end }}
             elif [[ ${remoteGeoserverNextRestartTime} -eq ${nextRestartSeconds} ]]; then
                 index="${HOSTNAME#{{ $.Release.Name }}-geocluster-*}"
                 if [[ ${index} -gt {{$i}} ]]; then
                     status=99
         {{- if ge $log_level ((get $log_levels "ERROR") | int) }}
-                    echo "$(date '+%Y-%m-%d %H:%M:%S.%N') Liveness: The remote geoserver(http://${server}:8080/geoserver) is online and its next restart time is $(date -d @${remoteGeoserverNextRestartTime} '+%Y-%m-%d %H:%M:%S') which is equal with the current geoserver's next restart time($(date -d @${nextRestartSeconds} '+%Y-%m-%d %H:%M:%S')), but the server index(${index}) is greater than the remote geoserver index({{$i}}), Can't restart." >> ${livenesslogfile}
+                    echo "$(date '+%Y-%m-%d %H:%M:%S.%N') Liveness: The remote geoserver (http://${server}:8080/geoserver) is online and its next restart time is $(date -d @${remoteGeoserverNextRestartTime} '+%Y-%m-%d %H:%M:%S') which is equal with the current geoserver's next restart time ($(date -d @${nextRestartSeconds} '+%Y-%m-%d %H:%M:%S')), but the server index(${index}) is greater than the remote geoserver index ({{$i}}), can't restart." >> ${livenesslogfile}
         {{- end }}
       {{- if ge $log_level ((get $log_levels "ERROR") | int) }}
                 else
-                    echo "$(date '+%Y-%m-%d %H:%M:%S.%N') Liveness: The remote geoserver(http://${server}:8080/geoserver) is online and its next restart time is $(date -d @${remoteGeoserverNextRestartTime} '+%Y-%m-%d %H:%M:%S') which is equal with the current geoserver's next restart time($(date -d @${nextRestartSeconds} '+%Y-%m-%d %H:%M:%S')), but the server index(${index}) is less than the remote geoserver index({{$i}}), can restart before the remote geoserver." >> ${livenesslogfile}
+                    echo "$(date '+%Y-%m-%d %H:%M:%S.%N') Liveness: The remote geoserver (http://${server}:8080/geoserver) is online and its next restart time is $(date -d @${remoteGeoserverNextRestartTime} '+%Y-%m-%d %H:%M:%S') which is equal with the current geoserver's next restart time ($(date -d @${nextRestartSeconds} '+%Y-%m-%d %H:%M:%S')), but the server index(${index}) is less than the remote geoserver index ({{$i}}), can restart before the remote geoserver." >> ${livenesslogfile}
       {{- end }}
                 fi
     {{- if ge $log_level ((get $log_levels "ERROR") | int) }}
             else
-                echo "$(date '+%Y-%m-%d %H:%M:%S.%N') Liveness : The remote geoserver(http://${server}:8080/geoserver) is online and its next restart time is $(date -d @${remoteGeoserverNextRestartTime} '+%Y-%m-%d %H:%M:%S') which is later than the current geoserver's next restart time($(date -d @${nextRestartSeconds} '+%Y-%m-%d %H:%M:%S')), can restart before the remote geoserver." >> ${livenesslogfile}
+                echo "$(date '+%Y-%m-%d %H:%M:%S.%N') Liveness: The remote geoserver (http://${server}:8080/geoserver) is online and its next restart time is $(date -d @${remoteGeoserverNextRestartTime} '+%Y-%m-%d %H:%M:%S') which is later than the current geoserver's next restart time ($(date -d @${nextRestartSeconds} '+%Y-%m-%d %H:%M:%S')), can restart before the remote geoserver." >> ${livenesslogfile}
     {{- end }}
             fi
   {{- if ge $log_level ((get $log_levels "ERROR") | int) }}
         else
-            echo "$(date '+%Y-%m-%d %H:%M:%S.%N') Liveness : The remote geoserver(http://${server}:8080/geoserver) is offline(status=${status}). Can't restart the current server." >> ${livenesslogfile}
+            echo "$(date '+%Y-%m-%d %H:%M:%S.%N') Liveness: The remote geoserver (http://${server}:8080/geoserver) is offline (status=${status}). Can't restart the current server." >> ${livenesslogfile}
   {{- end }}
         fi
     fi
@@ -108,7 +108,7 @@ else
     {{- else }}
         resourceusage=""
     {{- end }}
-        echo "$(date '+%Y-%m-%d %H:%M:%S.%N') Liveness: All remote geoservers are online and also their next restart time are later than the current geoserver's next restart time($(date -d @${nextRestartSeconds} '+%Y-%m-%d %H:%M:%S')). Try to restart the current geoserver. ${resourceusage}" >> ${livenesslogfile}
+        echo "$(date '+%Y-%m-%d %H:%M:%S.%N') Liveness: All remote geoservers are online and their next restart time are later than the current geoserver's next restart time ($(date -d @${nextRestartSeconds} '+%Y-%m-%d %H:%M:%S')). Try to restart the current geoserver. ${resourceusage}" >> ${livenesslogfile}
   {{- end }}
 
         if [[ "${resourceusage}" != "" ]]; then
@@ -118,7 +118,7 @@ else
         exit 1
 {{- if ge $log_level ((get $log_levels "ERROR") | int) }}
     else
-        echo "$(date '+%Y-%m-%d %H:%M:%S.%N') Liveness : It is not safe to restart the geoserver right now" >> ${livenesslogfile}
+        echo "$(date '+%Y-%m-%d %H:%M:%S.%N') Liveness: It is not safe to restart the geoserver right now" >> ${livenesslogfile}
 {{- end }}
 
     fi #end for  if $status -eq 0 
