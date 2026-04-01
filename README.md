@@ -213,3 +213,5 @@ The workload messagequeue is deprecated by suffix messagequeue with "\_skipped"
    - KB DEV: `./deploy-kb-dev.sh`
    - KB UAT: `./deploy-kb-uat.sh`
    - KB PROD: `./deploy-kb-prod.sh`
+
+1. Encrypt the changed values file and commit: `encrypt.sh values-geocluster-kmi-bushfireseason-prod.yaml`
